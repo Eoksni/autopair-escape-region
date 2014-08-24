@@ -86,4 +86,4 @@
 
 (provide 'autopair-escape-region)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; auto-pair+.el ends here
+;;; autopair-escape-region.el ends here
