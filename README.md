@@ -11,7 +11,7 @@ a try to implement it as a separate package.
 Dependencies
 ==============
 
-`autopair`
+Emacs packages `cl`, `fontlock`, `autopair`
 
 Installation
 ==============

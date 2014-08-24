@@ -19,9 +19,14 @@
 ;; "\"This is a test of the quoting system, \\\"this is only a test\\\"\""
 ;;
 ;;;; Installation:
+;;
 ;; Add
 ;; (require 'autopair-escape-region)
 ;; to your initialization file.
+;;
+;;;; Dependencies
+::
+;; `cl', `font-lock', `autopair'
 ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; 
@@ -29,14 +34,17 @@
 ;; 
 ;;
 
-(require 'autopair)
+(eval-when-compile
+  (require 'cl)
+  (require 'font-lock)
+  (require 'autopair))
 
 (defcustom autopair-escape-region-when-quoting 't
   "When regions are selected, quote that region"
   :type 'boolean
   :group 'autopair)
 
-(defun autopair-get-char-by-class+ (class-string)
+(defun wtf (class-string)
   "Gets char from current syntax table."
   (dotimes (char 256)
     (let* ((syntax-entry (aref (syntax-table) char))
@@ -45,16 +53,18 @@
            (pair (and syntax-entry
                       (cdr syntax-entry))))
       (when (eq class (car (string-to-syntax class-string)))
-        (return char))
-      ))
+        (return char)
+        ))
+    )
   )
 (defun autopair-get-escape-char+ ()
   "Gets escape char from current syntax table."
-  (autopair-get-char-by-class+ "\\")
+  ;; (autopair-get-char-by-class+ "\\")
+  (wtf "\\")
   )
 (defun autopair-get-quote-char+ ()
   "Gets quote char from current syntax table."
-  (autopair-get-char-by-class+ "\"")
+  (wtf "\"")
   )
 
 (defun autopair-try-escape-region+ (action pair pos-before region-before)
@@ -80,9 +90,13 @@
   )
 
 (defadvice autopair-default-handle-wrap-action (before autopair-default-handle-wrap-action+ activate)
-  (let* ((new-end (apply 'autopair-try-escape-region+ (ad-get-args 0))))
-    (if new-end
-        (ad-set-arg 3 `(,(car (ad-get-arg 3)) . ,new-end)))))
+  (let* (
+         (new-end (apply 'autopair-try-escape-region+ (ad-get-args 0)))
+         new-region
+         )
+    (when new-end
+      (setq new-region `(,(car (ad-get-arg 3)) . ,new-end))
+      (ad-set-arg 3 new-region))))
 
 (provide 'autopair-escape-region)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
