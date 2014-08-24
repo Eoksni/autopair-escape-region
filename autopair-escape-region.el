@@ -44,7 +44,7 @@
   :type 'boolean
   :group 'autopair)
 
-(defun wtf (class-string)
+(defun autopair-get-char-by-class+ (class-string)
   "Gets char from current syntax table."
   (dotimes (char 256)
     (let* ((syntax-entry (aref (syntax-table) char))
@@ -60,11 +60,11 @@
 (defun autopair-get-escape-char+ ()
   "Gets escape char from current syntax table."
   ;; (autopair-get-char-by-class+ "\\")
-  (wtf "\\")
+  (autopair-get-char-by-class+ "\\")
   )
 (defun autopair-get-quote-char+ ()
   "Gets quote char from current syntax table."
-  (wtf "\"")
+  (autopair-get-char-by-class+ "\"")
   )
 
 (defun autopair-try-escape-region+ (action pair pos-before region-before)
