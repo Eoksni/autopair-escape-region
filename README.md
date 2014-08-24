@@ -21,7 +21,7 @@ Add `(require 'autopair-escape-region)` to your initialization file.
 Enjoy
 ==============
 
-When `autopair-escape-region-when-quoting' (enabled by default) is
+When `autopair-escape-region-when-quoting` (enabled by default) is
 true, then it will appropriately quote the string. For example
 selecting the following string:
 
